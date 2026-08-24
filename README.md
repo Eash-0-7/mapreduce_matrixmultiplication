@@ -31,13 +31,55 @@ Compile and execute the program.
 Verify and display the resulting product matrix.
 
 ## PROGRAM:
+```
+from collections import defaultdict
 
-*(Paste the code for Matrix Vector Multiplication using MapReduce here.)*
+matrix = [ [1, 2, 3], [4, 5, 6], [7, 8, 9] ]
 
+vector = [1, 2, 3]
+
+def mapper(matrix, vector):
+    mapped = []
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            product = matrix[i][j] * vector[j]
+            mapped.append((i, product))
+    return mapped
+
+def reducer(mapped_data):
+    result = defaultdict(int)
+    for key, value in mapped_data:
+        result[key] += value
+    return result
+
+mapped = mapper(matrix, vector)
+reduced = reducer(mapped)
+
+print("Mapped Output:")
+for item in mapped:
+    print(item)
+
+print("\nFinal Result (Matrix × Vector):")
+for row in sorted(reduced):
+    print(f"Row {row}: {reduced[row]}")
+```
 ## OUTPUT:
 
-*(Paste the execution output showing the resultant matrix here.)*
+Mapped Output:
+(0, 1)
+(0, 4)
+(0, 9)
+(1, 4)
+(1, 10)
+(1, 18)
+(2, 7)
+(2, 16)
+(2, 27)
 
+Final Result (Matrix × Vector):
+Row 0: 14
+Row 1: 32
+Row 2: 50
 ## RESULT:
 
 The Matrix Multiplication using the MapReduce programming model was implemented successfully, and the resultant matrix was computed correctly.
